@@ -1,10 +1,11 @@
 import './App.css'
+import AppRouter from './components/AppRouter'
 
 function App() {
 
   return (
     <>
-      <h1 className='text-2xl font-bold'>Vite + React</h1>
+      <AppRouter />
     </>
   )
 }
