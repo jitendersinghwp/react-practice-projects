@@ -49,6 +49,10 @@ function Todo() {
     setTodoEditIndex(null);
   };
 
+  const handleDeleteTodo = (id) => {
+    setTodos((prev) => prev.filter((todo) => todo.id !== id));
+  };
+
   return (
     <div className="w-6/12 mx-auto">
       <h1 className="text-center text-2xl font-bold mt-4">Todo App</h1>
@@ -76,24 +80,24 @@ function Todo() {
           </p>
         )}
         {todos.length > 0 &&
-          todos.map((item, key) => (
-            <li className="pb-3 flex gap-2.5" key={item?.id}>
+          todos.map((todo, key) => (
+            <li className="pb-3 flex gap-2.5" key={todo?.id}>
               <div className="flex flex-1 gap-2 align-middle">
                 <input
-                  id={item?.id}
+                  id={todo?.id}
                   type="checkbox"
                   ref={(el) => (todoStatusRefs.current[key] = el)}
-                  checked={item?.status}
+                  checked={todo?.status}
                   onChange={() => handleTodoStatus(key)}
                 />
                 {todoEditIndex !== key ? (
                   <label
-                    htmlFor={item?.id}
+                    htmlFor={todo?.id}
                     className={`text-[18px] ${
-                      item?.status ? "line-through" : ""
+                      todo?.status ? "line-through" : ""
                     }`}
                   >
-                    {item?.todo}
+                    {todo?.todo}
                   </label>
                 ) : (
                   <input
@@ -101,7 +105,7 @@ function Todo() {
                     name="editTodo"
                     className="border-0 text-[18px] focus:outline-0 flex-1"
                     ref={editTodoRef}
-                    defaultValue={item?.todo}
+                    defaultValue={todo?.todo}
                   />
                 )}
                 {todoEditIndex !== key ? (
@@ -114,11 +118,7 @@ function Todo() {
                     </button>
                     <button
                       className="px-1.5 py-0.5 bg-red-700 text-white text-[14px] rounded-md cursor-pointer"
-                      onClick={() =>
-                        setTodos((prev) =>
-                          prev.filter((todo) => todo.id !== item.id)
-                        )
-                      }
+                      onClick={() => handleDeleteTodo(todo?.id)}
                     >
                       Delete
                     </button>
