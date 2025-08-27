@@ -25,25 +25,26 @@ function Todo() {
     todoRef.current.value = "";
   };
 
-  const handleTodoStatus = (index) => {
-    const checkBox = todoStatusRefs.current[index];
-    setTodos((prev) => {
+  const updateTodoTask = (index, key, value) => {
+
+   setTodos((prev) => {
       const oldTodos = [...prev];
-      oldTodos[index].status = checkBox.checked;
+      oldTodos[index][key] = value;
       return oldTodos;
     });
+
+  }
+
+  const handleTodoStatus = (index) => {
+    const checkBox = todoStatusRefs.current[index];
+
+    updateTodoTask(index, "status", checkBox.checked);
   };
 
   const handleUpdateTodo = (index) => {
     const updatedTodo = editTodoRef.current;
 
-    if (!updatedTodo.value) return;
-
-    setTodos((prev) => {
-      const oldTodos = [...prev];
-      oldTodos[index].todo = updatedTodo.value;
-      return oldTodos;
-    });
+    updateTodoTask(index, "todo", updatedTodo.value);
 
     setTodoEditIndex(null);
   };
