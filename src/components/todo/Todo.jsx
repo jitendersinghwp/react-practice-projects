@@ -1,24 +1,18 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocalstorage } from "../../utils/hooks/useLocalstorage";
 
 function Todo() {
   const todoRef = useRef(null);
   const editTodoRef = useRef(null);
   const todoStatusRefs = useRef([]);
-  const [todos, setTodos] = useState([]);
+  const [todos, setTodos] = useLocalstorage("todos", []);
   const [todoEditIndex, setTodoEditIndex] = useState(null);
 
   useEffect(() => {
-    if (todos.length) {
-      localStorage.setItem("todos", JSON.stringify(todos));
+    if (todoEditIndex !== null) {
+      editTodoRef.current.focus();
     }
-  }, [todos]);
-
-  useEffect(() => {
-    const todoStr = localStorage.getItem("todos");
-    if (todoStr) {
-      setTodos(JSON.parse(todoStr));
-    }
-  }, []);
+  }, [todoEditIndex]);
 
   const handleAddTodo = (e) => {
     e.preventDefault();
